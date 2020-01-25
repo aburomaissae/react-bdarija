@@ -7,39 +7,50 @@ import PropTypes from 'prop-types';
 
 // Shared States > Context
 
+const FamilyContext = React.createContext();
+
 function App() {
   return (
-    <div>
-      <Family surname={'ABC'} /> <br/>
-    </div>
+    <FamilyContext.Provider value={{surname:'IJK'}}>
+      <div>
+        <Person name={'Ahmed'} /> <br/>
+        <Person name={'Karim'} hasChildren />
+      </div>  
+    </FamilyContext.Provider>
   );
 }
 
-const GrandChild = ({name, surname, hasChildren}) => {
+const GrandChild = ({name, hasChildren}) => {
   return (
     <>
       <span>I am: {name}</span><br/>
       {
-        hasChildren && <GrandGrandChild surname={surname} name={'Fahed'} />
+        hasChildren && <GrandGrandChild name={'Fahed'} />
       }
     </>
   )
 };
 
-const GrandGrandChild = ({name, surname}) => {
+const GrandGrandChild = ({name}) => {
   return (
     <>
-      <span>I am: {name} {surname} </span><br/>
+      <FamilyContext.Consumer>
+        {
+          ({surname}) => (
+            <span>I am: {name} {surname}</span>
+          )
+        }
+      </FamilyContext.Consumer>
     </>
   ) 
 };
 
-const Person = ({name, surname, hasChildren}) => {
+const Person = ({name, hasChildren}) => {
   return (
     <>
-      <span>I am: {name} {surname} </span><br/>
+      <span>I am: {name} </span><br/>
       {
-        hasChildren && <GrandChild  surname={surname} name={'Mustapha'} hasChildren />
+        hasChildren && <GrandChild name={'Mustapha'} hasChildren />
       }
     </>
   ) 
@@ -53,15 +64,6 @@ Person.propTypes = {
 
 Person.defaultProps = {
   hasChildren: false,
-};
-
-const Family = ({surname}) => {
-  return (
-    <>
-      <Person surname={surname} name={'Ahmed'} /> <br/>
-      <Person surname={surname} name={'Karim'} hasChildren />
-    </>
-  );
 };
 
 export default App;
