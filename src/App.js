@@ -1,37 +1,67 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // State vs Props
 // Class Component
 // Functional Component
 
+// Shared States > Context
+
 function App() {
   return (
     <div>
-      Hello World! <br/>
-      <Person name={'larbi'} /> <br/>
-      <PersonClass name={'azzeddine'} />
+      <Family surname={'ABC'} /> <br/>
     </div>
   );
 }
 
-const Person = ({name}) => {
-  React.useEffect( () => {
-    // code goes here
-  }, []);
-  return <span>My name is: {name}</span> 
+const GrandChild = ({name, surname, hasChildren}) => {
+  return (
+    <>
+      <span>I am: {name}</span><br/>
+      {
+        hasChildren && <GrandGrandChild surname={surname} name={'Fahed'} />
+      }
+    </>
+  )
 };
 
-class PersonClass extends React.Component {
+const GrandGrandChild = ({name, surname}) => {
+  return (
+    <>
+      <span>I am: {name} {surname} </span><br/>
+    </>
+  ) 
+};
 
+const Person = ({name, surname, hasChildren}) => {
+  return (
+    <>
+      <span>I am: {name} {surname} </span><br/>
+      {
+        hasChildren && <GrandChild  surname={surname} name={'Mustapha'} hasChildren />
+      }
+    </>
+  ) 
+};
 
-  componentDidMount() {
-    // code goes here
-  }
+Person.propTypes = {
+  name: PropTypes.string.isRequired,
+  surname: PropTypes.string.isRequired,
+  hasChildren: PropTypes.bool,
+};
 
-  render() {
-    const {name} = this.props;
-    return <span>My name is: {name}</span>;
-  }
-}
+Person.defaultProps = {
+  hasChildren: false,
+};
+
+const Family = ({surname}) => {
+  return (
+    <>
+      <Person surname={surname} name={'Ahmed'} /> <br/>
+      <Person surname={surname} name={'Karim'} hasChildren />
+    </>
+  );
+};
 
 export default App;
