@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const NotiForm = () => {
+const NotiForm = (props) => {
   const [loading, setLoading] = React.useState(false);
 
   const [formData, setFormData] = React.useState({
@@ -71,7 +72,7 @@ const NotiForm = () => {
             <button type="submit" disabled={loading} className="btn button-primary u-pull-right">Sumbit</button>
             <button
               type="button"
-              onClick={() => {}}
+              onClick={() => props.goTo('list')}
               disabled={loading}
               className="btn u-pull-right">Cancel</button>
           </form>
@@ -80,5 +81,9 @@ const NotiForm = () => {
     </div>
   )
 }
+
+NotiForm.propTypes = {
+  goTo: PropTypes.func.isRequired,
+};
 
 export default NotiForm;
