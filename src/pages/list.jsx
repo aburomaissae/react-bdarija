@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 const NotiList = ({ goTo }) => {
   const [list, setList] = React.useState([]);
 
-  fetch('http://localhost:3030/notifications')
-    .then(response => response.json())
-    // .then( listNotifications => setList(listNotifications) ) 
-    .then(setList);
-
+  React.useEffect(() => {
+    fetch('http://localhost:3030/notifications')
+      .then(response => response.json())
+      // .then( listNotifications => setList(listNotifications) ) 
+      .then(setList);
+  }, [])
 
   return (
     <div>
