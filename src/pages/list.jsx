@@ -2,6 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const NotiList = ({ goTo }) => {
+  const [list, setList] = React.useState([]);
+
+  fetch('http://localhost:3030/notifications')
+    .then(response => response.json())
+    // .then( listNotifications => setList(listNotifications) ) 
+    .then(setList);
+
+
   return (
     <div>
       <h5>List of Notifications</h5>
@@ -19,14 +27,14 @@ const NotiList = ({ goTo }) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Lorem Ipsum</td>
-            <td>Azzeddine</td>
-          </tr>
-          <tr>
-            <td>Lorem Ipsum</td>
-            <td>Larbi</td>
-          </tr>
+          {
+            list.map((item) => (
+              <tr key={item._id}>
+                <td>{item.text}</td>
+                <td>{item.emitter}</td>
+              </tr>
+            ))
+          }
         </tbody>
       </table>
     </div>
