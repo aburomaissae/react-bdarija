@@ -3,7 +3,7 @@ import React from 'react';
 
 function App() {
 
-  const [currentInterface, setCurrentInterface] = React.useState('form');
+  const [currentInterface, setCurrentInterface] = React.useState('list');
 
   const [formData, setFormData] = React.useState({
     emitter: '',
@@ -52,7 +52,12 @@ function App() {
         <div>
           <h5>List of Notifications</h5>
           <p>This is the list of notification existing in the datatabse</p>
-          <table class="u-full-width">
+          <button 
+            onClick={ () => setCurrentInterface('form') }
+            className="u-pull-right">
+            Add new Notification
+          </button>
+          <table className="u-full-width">
             <thead>
               <tr>
                 <th>Text</th>
@@ -102,7 +107,12 @@ function App() {
                   value={formData.text}
                   onChange={handleChange('text')}
                   className="u-full-width" />
-                <button type="submit" disabled={loading} className="u-pull-right">Sumbit</button>
+                <button type="submit" disabled={loading} className="btn button-primary u-pull-right">Sumbit</button>
+                <button
+                  type="button"
+                  onClick={ () => setCurrentInterface('list') }
+                  disabled={loading}
+                  className="btn u-pull-right">Cancel</button>
               </form>
             </div>
           }
