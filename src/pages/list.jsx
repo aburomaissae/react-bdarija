@@ -7,21 +7,22 @@ import DeleteIcon from '../images/delete.png';
 const NotiList = ({ goTo }) => {
   const [list, setList] = React.useState([]);
 
-  const refresh = () => {
+  React.useEffect(() => {
     fetch('http://localhost:3030/notifications')
       .then(response => response.json())
       // .then( listNotifications => setList(listNotifications) ) 
       .then(setList);
-  }
-
-  React.useEffect(() => {
-    refresh();
   }, [])
 
-  const handleDelete = (_id) => {
+  const handleDelete = (_id, idx) => {
     fetch(`http://localhost:3030/notifications/${_id}`, {method:'delete'})
     .then( () => {
-      refresh();
+      setList(
+        [
+          ...list.slice(0, idx),
+          ...list.slice(idx+1, list.length),
+        ]
+      )
     });
   }
 
@@ -44,10 +45,10 @@ const NotiList = ({ goTo }) => {
         </thead>
         <tbody>
           {
-            list.map((item) => (
+            list.map((item, idx) => (
               <tr key={item._id}>
                 <td>
-                  <img className="icon-button" onClick={() => handleDelete(item._id)} alt="" src={DeleteIcon} title="Delete the current notification" />
+                  <img className="icon-button" onClick={() => handleDelete(item._id, idx)} alt="" src={DeleteIcon} title="Delete the current notification" />
                   <img className="icon-button" onClick={() => alert('delelte')} alt="" src={EditIcon} title="Mark as read" />
                 </td>
                 <td>{item.text}</td>
