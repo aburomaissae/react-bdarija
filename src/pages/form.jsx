@@ -37,7 +37,8 @@ const NotiForm = (props) => {
           text: '',
           status: 'unread', // Should be in BE
         })
-        setLoading(false)
+        setLoading(false);
+        props.goTo('list');
       })
   }
 
@@ -60,6 +61,7 @@ const NotiForm = (props) => {
             >
               <option></option>
               <option>Azzeddine</option>
+              <option>Hamza</option>
               <option>Larbi</option>
             </select>
             <label>Notification Text</label>
