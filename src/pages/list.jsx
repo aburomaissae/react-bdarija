@@ -14,6 +14,29 @@ const NotiList = ({ goTo }) => {
       .then(setList);
   }, [])
 
+  const handleEdit = (notification, idx) => {
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    notification.status = "read";
+
+    fetch(`http://localhost:3030/notifications/${notification._id}`, {
+        method: 'PUT',
+        body: JSON.stringify(notification),
+        headers: myHeaders,
+      } 
+    ).then( () => {
+      setList(
+        [
+          ...list.slice(0, idx),
+          notification,
+          ...list.slice(idx+1, list.length),
+        ]
+      )
+    });
+  }
+
   const handleDelete = (_id, idx) => {
     fetch(`http://localhost:3030/notifications/${_id}`, {method:'delete'})
     .then( () => {
@@ -46,10 +69,13 @@ const NotiList = ({ goTo }) => {
         <tbody>
           {
             list.map((item, idx) => (
-              <tr key={item._id}>
+              <tr key={item._id} style={{ background: item.status === 'unread' ? '#f5f5d1':'transparent' }}>
                 <td>
                   <img className="icon-button" onClick={() => handleDelete(item._id, idx)} alt="" src={DeleteIcon} title="Delete the current notification" />
-                  <img className="icon-button" onClick={() => alert('delelte')} alt="" src={EditIcon} title="Mark as read" />
+                  {
+                    item.status === "unread" &&
+                    <img className="icon-button" onClick={() => handleEdit(item, idx)} alt="" src={EditIcon} title="Mark as read" />
+                  }
                 </td>
                 <td>{item.text}</td>
                 <td>{item.emitter}</td>
