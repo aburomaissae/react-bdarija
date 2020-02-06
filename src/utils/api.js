@@ -4,9 +4,7 @@ export default {
       .then(response => {
         return response.json();
       })
-      .then((result) => {
-        resolve( result )
-      });
+      .then(resolve);
   })
 };
 
