@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3030';
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export default {
   DoRequest: (url, options = {}) => new Promise((resolve, reject) => {
@@ -13,6 +13,4 @@ export default {
       .then(resolve);
   })
 };
-
-
 
