@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import apiHelper from '../utils/api';
+
 
 const NotiForm = (props) => {
   const [loading, setLoading] = React.useState(false);
@@ -21,25 +23,20 @@ const NotiForm = (props) => {
     evt.preventDefault();
     setLoading(true);
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    fetch('http://localhost:3030/notifications',
+    apiHelper.DoRequest('/notifications',
       {
         method: 'POST',
         body: JSON.stringify(formData),
-        headers: myHeaders,
       }
-    ).then((resp) => resp.json())
-      .then((result) => {
-        setFormData({
-          emitter: '',
-          text: '',
-          status: 'unread', // Should be in BE
-        })
-        setLoading(false);
-        props.goTo('list');
+    ).then((result) => {
+      setFormData({
+        emitter: '',
+        text: '',
+        status: 'unread', // Should be in BE
       })
+      setLoading(false);
+      props.goTo('list');
+    })
   }
 
   return (
