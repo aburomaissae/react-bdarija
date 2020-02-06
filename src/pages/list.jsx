@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import EditIcon from '../images/edit.png';
 import DeleteIcon from '../images/delete.png';
 
+import apiHeloer from '../utils/api';
+
 const NotiList = ({ goTo }) => {
   const [list, setList] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('http://localhost:3030/notifications')
-      .then(response => response.json())
-      // .then( listNotifications => setList(listNotifications) ) 
-      .then(setList);
+    apiHeloer.DoRequest('http://localhost:3030/notifications')
+    .then( setList );
   }, [])
 
   const handleEdit = (notification, idx) => {
